@@ -1,0 +1,23 @@
+# spirit force system
+manipulation 1
+power 1
+density 1
+
+# elemental affinities
+lightning 0
+ice 0
+water 5
+fire 0
+
+# classic stats
+strength 4
+dexterity 1
+intelligence 1
+constitution 20
+
+# skills
+plot_importance 0
+perception 0
+
+defense 1
+offense 2

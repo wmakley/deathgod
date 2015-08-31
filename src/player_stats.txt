@@ -1,0 +1,23 @@
+# spirit force system
+manipulation 10
+power 10
+density 10
+
+# elemental affinities
+lightning 10
+ice 10
+water 10
+fire 10
+
+# classic stats
+strength 10
+dexterity 10
+intelligence 10
+constitution 10
+
+# skills
+plot_importance 10
+perception 10
+
+defense 0
+offense 10
