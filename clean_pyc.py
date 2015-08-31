@@ -31,17 +31,17 @@ def main(argv):
     else:
         target_dir = argv[1]
     
-    print "Removing .pyc files... "
+    print("Removing .pyc files... ")
     
     for root, dirs, files in os.walk(target_dir):
         for f in files:
             match = re.search(pyc_re, f)
             if match is not None:
                 file_to_remove = os.path.join(root, f)
-                print "Removing ", file_to_remove
+                print("Removing ", file_to_remove)
                 os.remove(os.path.join(root, f))
     
-    print "Success!"
+    print("Success!")
     
     return 0
 
