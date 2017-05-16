@@ -17,7 +17,7 @@ import os
 import re
 
 
-pyc_re = re.compile(r"""
+REGEX = re.compile(r"""
 ^           # start of file name
 .+          # one or more any character
 \.pyc       # ".pyc"
@@ -30,19 +30,19 @@ def main(argv):
         target_dir = "./src"
     else:
         target_dir = argv[1]
-    
+
     print("Removing .pyc files... ")
-    
-    for root, dirs, files in os.walk(target_dir):
+
+    for root, _, files in os.walk(target_dir):
         for f in files:
-            match = re.search(pyc_re, f)
+            match = re.search(REGEX, f)
             if match is not None:
                 file_to_remove = os.path.join(root, f)
                 print("Removing ", file_to_remove)
                 os.remove(os.path.join(root, f))
-    
+
     print("Success!")
-    
+
     return 0
 
 
