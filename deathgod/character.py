@@ -194,6 +194,10 @@ class StatStruct:
         self.hp = self.max_hp
         self.reiatsu = self.intelligence
 
+        # TODO: remove these or replace with functions derived from attributes
+        self.offense = 0
+        self.defense = 0
+
 
 def compare_characters(ch1, ch2):
     """Compare the fitness of one character to another.
