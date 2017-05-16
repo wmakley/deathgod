@@ -9,7 +9,6 @@ to assemble a decision tree AI
 
 from .. import game_map
 
-from ..ordered_pair import *
 
 def full_life(game, ch):
     if ch.stats.hp == ch.stats.max_hp:

@@ -20,16 +20,17 @@ DecisionTree
 DTreeNode
 """
 
+import random
 from . import tests
 from . import actions
 from ..monster import Monster
-import random
-random.seed()
-from .. import character
 from ..monsters import giant_frog
+from .. import character
 from .. import event
 
-max_depth = len(tests.members) # right now my trees are stupid simple so this is accurate
+random.seed()
+
+MAX_DEPTH = len(tests.members) # right now my trees are stupid simple so this is accurate
 
 # any monster using this better already be given a d_tree variable somehow
 def act(game, monster):
@@ -94,7 +95,7 @@ class GATest:
                 avg_fitness = avg_fitness + mon.fitness
                 # it doesn't really matter if we mutate now or later,
                 # so may as well catch this for loop
-                mon.d_tree.mutate(1.0 / (float(max_depth) * 2.0 + 1.0))
+                mon.d_tree.mutate(1.0 / (float(MAX_DEPTH) * 2.0 + 1.0))
 
             self.monsters.sort(key=lambda m: m.sorting_priority)
 
@@ -132,12 +133,13 @@ class GATest:
             for mon in to_breed:
                 # breed with random choice of the best half of self.monsters
                 # is this too much selection pressure?
-                new_d_tree = breed(mon.d_tree, random.choice(self.monsters[-len(self.monsters)//2:]).d_tree)
+                new_d_tree = breed(mon.d_tree,
+                                   random.choice(self.monsters[-len(self.monsters)//2:]).d_tree)
                 new_d_trees.append(new_d_tree)
 
             # put those new d_trees in to_replace
             # since this is effectively a new monster, reset it
-            while len(new_d_trees) > 0:
+            while new_d_trees:
                 mon = to_replace.pop(0)
                 mon.d_tree = new_d_trees.pop(0)
                 mon.reset()
@@ -191,7 +193,7 @@ def breed(tree1, tree2):
     """
     cpy = tree1.copy()
 
-    start_depth = random.randint(0, max_depth-2)
+    start_depth = random.randint(0, MAX_DEPTH-2)
 
     node1_parent = cpy.get_left_node_at_depth(start_depth)
     node2 = tree2.get_left_node_at_depth(start_depth+1)
@@ -262,7 +264,7 @@ class DecisionTree:
         """Should return the top node of the tree."""
         # base case is tests is empty, meaning all have been used,
         # so we make an action node instead
-        if len(test_set) == 0:
+        if not test_set:
             action = random.choice(action_set)
             node = DTreeNode(self, action)
             return node
@@ -295,12 +297,13 @@ class DecisionTree:
         self.root.right.right = DTreeNode(self, actions.move_towards_player)
 
 
-    def mutate(self, probability=(1.0 / (float(max_depth) * 2.0 + 1.0))):
+    def mutate(self, probability=(1.0 / (float(MAX_DEPTH) * 2.0 + 1.0))):
         """Randomly moves some nodes around."""
-        self.mutate_aux(probability, self.root)
+        self.__mutate_aux(probability, self.root)
 
 
-    def mutate_aux(self, probability, node):
+    def __mutate_aux(self, probability, node):
+        """Recursive version of mutate."""
         # decide whether to mutate
         if random.uniform(0, 1) < probability:
             mutate = True
@@ -318,8 +321,8 @@ class DecisionTree:
             # of whether a mutation happened:
             if mutate:
                 node.test = random.choice(tests.members)
-            self.mutate_aux(probability, node.left)
-            self.mutate_aux(probability, node.right)
+            self.__mutate_aux(probability, node.left)
+            self.__mutate_aux(probability, node.right)
             return
 
 
@@ -353,10 +356,6 @@ class DTreeNode:
         self.parent_tree = parent_tree
         parent_tree.node_count = parent_tree.node_count + 1
         parent_tree.node_list.append(self)
-
-
-    def to_string(self, depth=0):
-        pass
 
 
     @property
