@@ -40,3 +40,7 @@ Thumbs.db
 .svn
 .hg
 CVS
+
+# IDE
+.vscode
+env
