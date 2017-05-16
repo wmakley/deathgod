@@ -11,24 +11,15 @@ main
 
 """
 
-import sys, os
+import sys
 import pygame
+from deathgod.game import Game
 
-def main(argv=None):
+def main():
     """This is Death God's main function."""
 
-    # initialize the game
-    from deathgod.game import Game
+    # create a new game object
     game_obj = Game()
-
-    # initialize psyco for SPEED
-    # (actually it doesn't seem to do much)
-    # try:
-    #     import psyco
-    #     psyco.full()
-    # except ImportError:
-    #     print("failed to load psyco, hope your computer is fast")
-
     # start the game loop
     game_obj.start()
 
@@ -38,4 +29,4 @@ def main(argv=None):
 
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+    sys.exit(main())

@@ -1,19 +1,19 @@
-from . import settings
+"""
+Entry point of the game
+"""
+import pickle
 import pygame
+from . import settings
 from . import dg_input
 from . import display
 from . import event
 from . import entity
-from .player import *
+from .player import Player
 from . import game_map
 from . import map_generators
-from . import directions
-from . import tile
-from . import fonts
 from . import colors
-from . import ascii_gfx
+from .ordered_pair import x, y
 from .message import Message
-import pickle
 
 
 class Game:
@@ -46,7 +46,11 @@ class Game:
     def __init__(self):
         # model!
         self.player = Player(self, settings.player_start)
-        self.current_map = game_map.GameMap(settings.world_dimensions, self.player.position, map_generators.test_generator)
+        self.current_map = game_map.GameMap(
+            settings.world_dimensions,
+            self.player.position,
+            map_generators.test_generator
+        )
 
         # view!
         self.display = display.Display(self.player, self.current_map)
@@ -65,18 +69,18 @@ class Game:
         from .monster import Monster
         from . import monsters
         from .ai import genetic
-        testMonster = Monster(self, (24, 1), monsters.giant_frog)
-        testMonster.ai_func = genetic.act
-        testMonster.d_tree = genetic.DecisionTree(testMonster)
-        testMonster.d_tree.init_sane()
+        test_monster = Monster(self, (24, 1), monsters.giant_frog)
+        test_monster.ai_func = genetic.act
+        test_monster.d_tree = genetic.DecisionTree(test_monster)
+        test_monster.d_tree.init_sane()
 
-        testEntity = entity.Entity(self, (22, 20), "Test e")
-        testEntity.sorting_priority = (20)
-        testEntity.visible = True
+        test_entity = entity.Entity(self, (22, 20), "Test e")
+        test_entity.sorting_priority = (20)
+        test_entity.visible = True
 
-        self.add_entity(testMonster)
-        self.add_entity(testEntity)
-        self.activate_entity(testMonster)
+        self.add_entity(test_monster)
+        self.add_entity(test_entity)
+        self.activate_entity(test_monster)
 
         # uncomment for genetic ai test:
         self.ga_test = genetic.GATest(self)
@@ -86,8 +90,8 @@ class Game:
         """Starts the game loop"""
         self.display.update()
         while not self.done:
-            e = dg_input.wait_for_event(pygame.locals.KEYDOWN)
-            dg_input.parse_keydown(e.key, self)
+            evt = dg_input.wait_for_event(pygame.locals.KEYDOWN)
+            dg_input.parse_keydown(evt.key, self)
 
     def get_map(self):
         """Returns the current map object"""
@@ -105,8 +109,8 @@ class Game:
 
         # update all active entities
         # TODO add speed mechanics here
-        for entity in self.active_entities:
-            entity.update()
+        for ent in self.active_entities:
+            ent.update()
 
 
         # some things still rely on this event being instantiated every turn, alas
@@ -125,21 +129,22 @@ class Game:
         Returns True if the movement occurred, False if there is something in the way"""
         target = self.current_map.get_tile(destination)
         moved = True
-        if target.passable == True:
-            for e in target.entities:
-                if e.passable == False:
+        if target.passable is True:
+            for ent in target.entities:
+                if ent.passable is False:
                     if ent.type == "Player":
-                        e.interact(ent)
+                        ent.interact(ent)
                     moved = False
                     break
-            if moved == True:
+            if moved is True:
                 self.current_map.move_entity_to_tile(ent, target)
                 ent.position = destination
         else:
             moved = False
             if ent.type == "Player":
                 Message(("There is something in the way.", colors.white)).dispatch()
-                Message(("You hit your head on it.", colors.white), (" Ouch.", colors.red)).dispatch()
+                Message(("You hit your head on it.", colors.white),
+                        (" Ouch.", colors.red)).dispatch()
 
         return moved
 
@@ -158,7 +163,7 @@ class Game:
 
     def remove_entity(self, ent):
         """Remove an entity from the current map: ent = the Entity object"""
-        if ent.active == True:
+        if ent.active is True:
             self.active_entities.remove(ent)
         else:
             self.inactive_entities.remove(ent)
@@ -185,7 +190,7 @@ class Game:
         It tries to move the player in a direction, if the tile is not passable for
         some reason nothing happens, and if there is an entity in the destination
         tile, it is assumed that the player wants to interact with it."""
-        if self.move_entity_in_direction(self.player, direction) == True:
+        if self.move_entity_in_direction(self.player, direction) is True:
             pass
         self.end_turn()
 
@@ -197,14 +202,16 @@ class Game:
         including diagonals (so it gets entities in a square)
         """
         position = ent.position
-        tile_slice = self.current_map.get_tile_slice(position[x]-spread, position[x]+spread,
-                                               position[y]-spread, position[y]+spread)
+        tile_slice = self.current_map.get_tile_slice(
+            position[x]-spread, position[x]+spread,
+            position[y]-spread, position[y]+spread
+        )
         entities = []
 
         for column in tile_slice:
-            for t in column:
-                if t.has_entity:
-                    entities.extend(t.entities)
+            for tile in column:
+                if tile.has_entity:
+                    entities.extend(tile.entities)
 
         #entities.remove(ent)
         return entities
@@ -280,7 +287,8 @@ class Game:
             name2 = victim.name
             the = "the "
 
-        Message(("%s %s %s%s for %d damage." % (name1, verb, the, name2, damage), colors.white)).dispatch()
+        Message(("%s %s %s%s for %d damage." % (name1, verb, the, name2, damage),
+                 colors.white)).dispatch()
 
         if death:
             attacker.kills = attacker.kills + 1
@@ -291,7 +299,8 @@ class Game:
                 self.remove_entity(victim)
                 victim.die()
             else:
-                Message(("You die. ", colors.red), ("Your health has been reset.", colors.green)).dispatch()
+                Message(("You die. ", colors.red),
+                        ("Your health has been reset.", colors.green)).dispatch()
                 self.player.stats.hp = self.player.stats.max_hp # player can't die yet
 
 

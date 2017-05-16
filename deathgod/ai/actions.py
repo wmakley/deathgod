@@ -1,13 +1,18 @@
-from .. import game_map
-from ..ordered_pair import *
-from . import tests
+"""This module defines functions for possible actions an agent can perform."""
 
-def attack_player(game, ch):
-    game.combat(ch, game.get_player())
+from .. import game_map
+from ..ordered_pair import x, y
+
+
+def attack_player(game, agent):
+    """have and agent attack the player"""
+    game.combat(agent, game.get_player())
 
 
 def move_towards_player(game, ch):
-    """This is basically a very simple uninformed search.
+    """Have an agent try to move towards the player.
+
+    This is basically a very simple uninformed search.
 
     If adjacent the player, this calls attack_player instead.
 
@@ -23,14 +28,14 @@ def move_towards_player(game, ch):
     possibilities = get_move_possibilities(game, ch)
 
     # if none are left just do nothing
-    if len(possibilities) == 0:
+    if not possibilities:
         wait(game, ch)
         return
 
     # get the costs of all the possible moves
     costs = []
-    for p in possibilities:
-        costs.append(cost(ch_pos, p, pl_pos))
+    for pos in possibilities:
+        costs.append(cost(ch_pos, pos, pl_pos))
 
     # find the lowest one
     lowest = 0
@@ -58,14 +63,14 @@ def run_away(game, ch):
     possibilities = get_move_possibilities(game, ch)
 
     # if none are left just do nothing
-    if len(possibilities) == 0:
+    if not possibilities:
         wait(game, ch)
         return
 
     # get the costs of all the possible moves
     costs = []
-    for p in possibilities:
-        costs.append(cost(ch_pos, p, pl_pos))
+    for pos in possibilities:
+        costs.append(cost(ch_pos, pos, pl_pos))
 
     # find the HIGHEST one
     highest = 0
@@ -83,17 +88,21 @@ def run_away(game, ch):
             print("wtf")
 
 
-def wait(game, ch):
+def wait(game, agent):
+    """Do nothing."""
     pass
 
 
-members = [attack_player,
-           move_towards_player,
-           run_away,
-           wait]
+members = [
+    attack_player,
+    move_towards_player,
+    run_away,
+    wait
+]
 
 
 def get_move_possibilities(game, ch):
+    """Get all the adjacent tiles that an agent could move into."""
     ch_pos = ch.position
     pl_pos = game.get_player().position
     current_map = game.get_map()
@@ -102,10 +111,10 @@ def get_move_possibilities(game, ch):
     possibilities = game_map.get_adjacent_coords(ch_pos)
     # remove impassable ones
     possibilities_cpy = list(possibilities)
-    for p in possibilities_cpy:
-        target_tile = current_map.get_tile(p)
-        if not target_tile.character_can_enter(ch) and p != pl_pos:
-            possibilities.remove(p)
+    for pos in possibilities_cpy:
+        target_tile = current_map.get_tile(pos)
+        if not target_tile.character_can_enter(ch) and pos != pl_pos:
+            possibilities.remove(pos)
 
     return possibilities
 
@@ -147,6 +156,7 @@ def cost(start, move, end):
 
 
 def distance(p1, p2):
+    """Get the distance between two points on the grid."""
     dist = [p1[x] - p2[x], p1[y] - p2[y]]
 
     if dist[x] < 0:

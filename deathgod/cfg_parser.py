@@ -2,10 +2,11 @@
 
 COMMENT = '#'
 
-def tokenize_file(fileName, delimiter=None):
+def tokenize_file(file_name, delimiter=None):
+    """tokenize file_name. returns a dict of key/value pairs."""
     values = {}
     try:
-        infile = open(fileName)
+        infile = open(file_name)
         try:
             i = 0
             for line in infile:
@@ -23,20 +24,21 @@ def tokenize_file(fileName, delimiter=None):
                     #print "in tokenize_file: got wrong number of items in line %d, skipping" % i
                     continue
                 # convert every second word to an int or float if possible
-                finalVal = convert_str(words[1])
+                final_val = convert_str(words[1])
                 # add string and value to our lists if we made it through the previous mine field
                 #attributes.append(words[0])
-                values[words[0]] = finalVal
+                values[words[0]] = final_val
         finally:
             infile.close()
             # print("after tokenizeFile:")
             # print("values = %s" % str(values))
             # print("attributes = %s" % str(attributes))
     except IOError:
-        print("in tokenize_file: Can't open %s" % fileName)
+        print("in tokenize_file: Can't open %s" % file_name)
         raise
 
     return values
+
 
 def parse(cfg_file, delimiter=None):
     """ Parse the lines of a cfg file
@@ -48,7 +50,9 @@ def parse(cfg_file, delimiter=None):
 
     return values
 
-def parse_and_apply(cfg_file, targetObject, typesafe=False, delimiter=None):
+
+def parse_and_apply(cfg_file, target_object, typesafe=False, delimiter=None):
+    """Parse cfg_file and try to assign its key/value pairs to an object dynamically."""
     try:
         values = parse(cfg_file, delimiter)
     except IOError:
@@ -56,53 +60,59 @@ def parse_and_apply(cfg_file, targetObject, typesafe=False, delimiter=None):
     #print "starting parse_and_apply:"
     #print "values = %s" % str(values)
     #print "attributes = %s" % str(attributes)
-    for targetAttributeName in list(values.keys()):
-        val = values[targetAttributeName]
+    for target_attr_name in list(values.keys()):
+        val = values[target_attr_name]
         #print "val = %s" % str(val)
-        valType = type(val)
+        val_type = type(val)
         try:
-            targetType = type(getattr(targetObject, targetAttributeName))
+            target_type = type(getattr(target_object, target_attr_name))
         except AttributeError:
             #print "in parse_and_apply: member not found, attempting to create"
-            setattr(targetObject, targetAttributeName, val)
-            targetType = None
+            setattr(target_object, target_attr_name, val)
+            target_type = None
         # skip the attribute if the variable type from file doesn't match variable type in object
-        if typesafe == True and targetType != valType and targetType is not None:
+        if typesafe is True and target_type != val_type and target_type is not None:
             print("in parse_and_apply: failed to set %s to %s due to typesafe" % \
-             (targetAttributeName, str(val)))
+             (target_attr_name, str(val)))
             continue
-        setattr(targetObject, targetAttributeName, val)
+        setattr(target_object, target_attr_name, val)
         #print "in parse_and_apply: set %s to %s" % \
         #     (targetAttributeName, str(getattr(targetObject, targetAttributeName)))
 
-def convert_str(s):
-    """Convert string to either int or float or string."""
+
+def convert_str(input_str):
+    """Try to convert string to either int or float, returning the original string if this fails."""
     try:
-        ret = int(s)
+        ret = int(input_str)
     except ValueError:
         # try float.
         try:
-            ret = float(s)
+            ret = float(input_str)
         except ValueError:
-            ret = s
+            ret = input_str
     return ret
 
-if __name__ == "__main__":
+
+def test():
+    """Test the parse_and_apply function."""
     #print __doc__
-    testFileName = "testfile.cfg"
+    test_file_name = "testfile.cfg"
     #import settings
     class TestClass:
-        intVar1 = 0
-        stringVar1 = "foo"
-        floatVar1 = 0.0
-    print("testing parse_and_apply on TestClass with %s" % testFileName)
-    try:
-        parse_and_apply(testFileName, TestClass, True)
-        #print "intVar1 = %s" % str(TestClass.intVar1)
-        #print "stringVar1 = %s" % str(TestClass.stringVar1)
-        #print "floatVar1 = %s" % str(TestClass.floatVar1)
-        #print "wild = %s" % str(TestClass.wild)
-    except IOError:
-        "whoo screwed up"
+        """test class"""
+        int_var_1 = 0
+        string_var_1 = "foo"
+        float_var_1 = 0.0
+
+    print("testing parse_and_apply on TestClass with %s" % test_file_name)
+    parse_and_apply(test_file_name, TestClass, True)
+    #print "int_var_1 = %s" % str(TestClass.int_var_1)
+    #print "string_var_1 = %s" % str(TestClass.string_var_1)
+    #print "float_var_1 = %s" % str(TestClass.float_var_1)
+    #print "wild = %s" % str(TestClass.wild)
+
+
+if __name__ == "__main__":
+    test()
 
 

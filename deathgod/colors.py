@@ -1,4 +1,4 @@
-"""This module defines some common colors as RGB tuples, as well as a Colo class."""
+"""This module defines some common colors as RGB tuples, as well as a Color class."""
 red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
@@ -13,7 +13,7 @@ class Color:
         self.r = r
         self.g = g
         self.b = b
-        
+
     def set(self, color):
         self.r = color.r
         self.g = color.g
