@@ -141,13 +141,13 @@ class Character(Entity):
     def offense(self):
         """(int) Returns the Character's offense value."""
         #return self.stats.strength + self.stats.level
-        return 1
+        return self.stats.offense
 
     @property
     def defense(self):
         """(int) Returns the Character's defense value."""
         #return self.stats.dexterity + (self.stats.reiatsu * self.stats.density)
-        return 1
+        return self.stats.defense
 
     @property
     def speed(self):
