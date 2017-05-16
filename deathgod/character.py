@@ -72,8 +72,10 @@ class Character(Entity):
         self.turns_since_regen = 0
         self.regen_rate = 5
         self.inventory = None # needs to be an item container object
-        self.equipment = {'head':None, 'neck':None, 'about_body':None, 'body':None, 'legs':None, 'feet':None,
-                          'on_lh':None, 'on_rh':None, 'in_lh':None, 'in_rh':None}
+        self.equipment = {
+            'head':None, 'neck':None, 'about_body':None, 'body':None, 'legs':None, 'feet':None,
+            'on_lh':None, 'on_rh':None, 'in_lh':None, 'in_rh':None
+        }
 
         # copy more attributes out of config
         self.visual_desc = config.visual_desc
