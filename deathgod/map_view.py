@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
-
-# TODO revise variable naming style
+""" map_view.py - module containing classes for drawing the game map. """
 
 import pygame
 from pygame.locals import *
 from . import settings
 from .view import View
-from . import tile
-from .ordered_pair import *
+from .ordered_pair import x, y
 from . import colors
 
 class MapView(View):
@@ -21,13 +19,13 @@ class MapView(View):
 
         # determine what portion of the map is visible,
         # negative or invalid coordinates are handled later
-        viewable_x_min = player_state.position[x] - (self.tileCount[x] // 2)
-        viewable_x_max = viewable_x_min + self.tileCount[x]
+        viewable_x_min = player_state.position[x] - (self.tile_count[x] // 2)
+        viewable_x_max = viewable_x_min + self.tile_count[x]
         x_range = range(viewable_x_min, viewable_x_max)
         #print "x_range = " + str(x_range)
 
-        viewable_y_min = player_state.position[y] - (self.tileCount[y] // 2)
-        viewable_y_max = viewable_y_min + self.tileCount[y]
+        viewable_y_min = player_state.position[y] - (self.tile_count[y] // 2)
+        viewable_y_max = viewable_y_min + self.tile_count[y]
         y_range = range(viewable_y_min, viewable_y_max)
         #print "y_range = " + str(y_range)
         #print "viewable x_min = %d, x_max = %d, y_min = %d, y_max = %d" %\
@@ -36,7 +34,6 @@ class MapView(View):
         # draw the map view
         k = 0 # these variables keep track of where we are on the screen
         l = 0
-        # TODO: make this use slices of the map tiles instead of indexes
         for i in x_range:
             for j in y_range:
                 #print "in draw loop: i = %d, j = %d, k = %d, l = %d" % (i, j, k, l)
@@ -46,36 +43,36 @@ class MapView(View):
                     tile = map_state.tiles[i][j]
 
                     # first draw the tile's background color
-                    self.add_image(self.spriteList[tile.tile_type]['bg']['v'],
-                                    self.tileMappingPoints[k][l])
+                    self.add_image(self.sprite_list[tile.tile_type]['bg']['v'],
+                                   self.tile_mapping_points[k][l])
 
                     # if tile has an entity, draw that
                     e_top = tile.get_top_visible_entity()
                     if e_top is not None:
                         self.add_image_with_offset(
                             e_top.sprite,
-                            self.tileMappingPoints[k][l],
-                            self.drawOffset
+                            self.tile_mapping_points[k][l],
+                            self.draw_offset
                         )
                     else: # draw the tile
                         self.add_image_with_offset(
-                            self.spriteList[tile.tile_type]['char']['v'],\
-                            self.tileMappingPoints[k][l],\
-                            self.drawOffset
+                            self.sprite_list[tile.tile_type]['char']['v'],\
+                            self.tile_mapping_points[k][l],\
+                            self.draw_offset
                         )
 
                     #if self.hilight_on and i == self.hilight_position[x] and j == self.hilight_position[y]:
                     #    self.add_image(self.hilight_img,
-                    #        (self.tileMappingPoints[self.hilight_position[x]],
-                    #         self.tileMappingPoints[self.hilight_position[y]]))
+                    #        (self.tile_mapping_points[self.hilight_position[x]],
+                    #         self.tile_mapping_points[self.hilight_position[y]]))
                 l = l + 1
             l = 0
             k = k + 1
 
 
-        #for i in range(self.tileCount[x]):
-        #   for j in range(self.tileCount[y]):
-        #       self.add_image_with_offset(self.testTile, self.tileMappingPoints[i][j], self.drawOffset)
+        #for i in range(self.tile_count[x]):
+        #   for j in range(self.tile_count[y]):
+        #       self.add_image_with_offset(self.testTile, self.tile_mapping_points[i][j], self.draw_offset)
 
     def _gen_tile_points(self):
         """Creates 2D array of screen coordinates of all tile positions,
@@ -83,43 +80,43 @@ class MapView(View):
         - using these mapping points to place tiles allows us to assume the origin
         of the screen is the lower left corner when working on the tile level"""
         columns = []
-        for i in range(self.tileCount[x]):
+        for i in range(self.tile_count[x]):
             column = []
-            for j in range(self.tileCount[y]):
-                tm = ( self.tileWidth * i, self.height - (self.tileHeight * (j+1)) )
+            for j in range(self.tile_count[y]):
+                tm = (self.tile_width * i, self.height - (self.tile_height * (j+1)))
                 column.append(tm)
-            columns.append( tuple(column) )
+            columns.append(tuple(column))
 
-        return ( tuple(columns) )
+        return tuple(columns)
 
-    def __init__(self, screen, rect, background_color, tileCount, spriteList=None):
+    def __init__(self, screen, rect, background_color, tile_count, sprite_list=None):
         View.__init__(self, screen, rect, background_color)
 
-        self.spriteList = spriteList
-        self.tileCount = tileCount
+        self.sprite_list = sprite_list
+        self.tile_count = tile_count
 
         # calculate tile dimensions
-        self.tileWidth = int(self.width / tileCount[x])
-        self.tileHeight = int(self.height / tileCount[y])
-        self.tile_size = (self.tileWidth, self.tileHeight)
-        x_diff = self.width- (self.tileWidth * tileCount[x])
-        y_diff = self.height- (self.tileHeight * tileCount[y])
+        self.tile_width = int(self.width / tile_count[x])
+        self.tile_height = int(self.height / tile_count[y])
+        self.tile_size = (self.tile_width, self.tile_height)
+        x_diff = self.width- (self.tile_width * tile_count[x])
+        y_diff = self.height- (self.tile_height * tile_count[y])
         print("tile dimensions = %s, x_diff = %d, y_diff = %d" % \
-         (str([self.tileWidth, self.tileHeight]), x_diff, y_diff))
-        self.drawOffset = (settings.map_draw_offset[x] + (x_diff/2),
-         settings.map_draw_offset[y] + (y_diff/2))
+         (str([self.tile_width, self.tile_height]), x_diff, y_diff))
+        self.draw_offset = (settings.map_draw_offset[x] + (x_diff/2),
+                            settings.map_draw_offset[y] + (y_diff/2))
 
-        self.tileMappingPoints = self._gen_tile_points()
+        self.tile_mapping_points = self._gen_tile_points()
 
-        self.hilight_img = pygame.Surface((self.tileWidth, self.tileHeight))
+        self.hilight_img = pygame.Surface((self.tile_width, self.tile_height))
         self.hilight_img.fill(colors.yellow)
         self.hilight_img.set_alpha(110)
         self.hilight_on = True
         self.hilight_position = [10, 10]
 
-        #self.testTile = pygame.Surface((self.tileWidth, self.tileHeight))
+        #self.testTile = pygame.Surface((self.tileWidth, self.tile_height))
         #self.testTile.fill(colors.blue)
-        #over = pygame.Surface((self.tileWidth-2, self.tileHeight-2))
+        #over = pygame.Surface((self.tileWidth-2, self.tile_height-2))
         #over.fill(colors.black)
         #self.testTile.blit(over, (1, 1))
 

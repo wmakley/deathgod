@@ -31,8 +31,9 @@ add
 
 """
 
-from . import settings
 import pygame
+from . import settings
+
 pygame.font.init()
 
 monaco = pygame.font.Font(settings.monaco, settings.map_font_size)
@@ -48,19 +49,19 @@ def Font(font_file, size):
 
 def Monaco(size):
     return Font(settings.monaco, size)
-    
+
 def CourierNew(size):
     return Font(settings.courier_new, size)
-    
+
 def CourierNewBold(size):
     return Font(settings.courier_new_bold, size)
-    
+
 def CourierNewItalic(size):
     return Font(settings.courier_new_italic, size)
 
 def CourierNewBoldItalic(size):
     return Font(settings.courier_new_bold_italic, size)
-    
+
 
 _fonts = {}
 
@@ -77,6 +78,6 @@ add("bold", bold)
 add("italic", italic)
 add("bolditalic", bolditalic)
 
-    
+
 if __name__ == "__main__":
     print(__doc__)

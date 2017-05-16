@@ -7,23 +7,21 @@ wait_for_event
 InputManager
 Prompt
 
-"""
+TODO finish Prompt class
 
-# TODO finish Prompt class
+"""
 
 import pygame
 from pygame.locals import *
-
 from .event import *
-from . import text_views
 from . import directions
 
 
 def parse_keydown(key, game):
     """Sends calls appropriate methods in game depending on what key was pressed.
-    
+
     Arguments:
-    
+
     key
         -- the key that was pressed (as defined in pygame.locals)
     game
@@ -65,47 +63,47 @@ def parse_keydown(key, game):
         # PlayerMoved(directions.NORTHWEST).dispatch()
     else:
         KeyPressed().dispatch()
-            
-                        
+
+
 def wait_for_event(event_type=None):
     """Waits for a pygame event and returns it.
-    
+
     Arguments:
-    
+
     event_type
         -- You may specify what specific type of event you want to wait
            for. All others will be ignored until an event of this type
            is received. (default None)
     """
     found = False
-    while found == False:
-        e = pygame.event.wait()
+    while not found:
+        evt = pygame.event.wait()
         if event_type is not None:
-            if e.type == event_type:
+            if evt.type == event_type:
                 found = True
         else:
             found = True
-    
-    return e
+
+    return evt
 
 
 class Prompt:
     """Displays a message, waits for input, handles input.
-    
+
     Takes a bit of setup, so should primarily be sub-classed.
     """
-    
+
     def __init__(self, msg, actions={}):
         self._prompt_msg = msg
         self._actions = actions
-        
+
     def run_prompt(self):
         self._prompt_msg.dispatch()
-        e = wait_for_event(KEYDOWN)
-        func = self._actions[e.key]
+        evt = wait_for_event(KEYDOWN)
+        func = self._actions[evt.key]
         func()
-        
-    
-    
+
+
+
 if __name__ == '__main__':
     print(__doc__)

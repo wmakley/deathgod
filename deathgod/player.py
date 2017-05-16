@@ -23,7 +23,7 @@ class Player(Character):
         Character.__init__(self, game, position, PConfig)
         message.Message.add_handler(self.handle_message)
         self.type = "Player"
-        self.messageLog = []
+        self.message_log = []
 
 
     def show_stats(self):
@@ -31,10 +31,11 @@ class Player(Character):
         pass
 
 
-    def handle_message(self, e):
-        self.messageLog.append(e)
-        if len(self.messageLog) > 100:
-            self.messageLog.pop(0)
+    def handle_message(self, event):
+        """Append message events to the log."""
+        self.message_log.append(event)
+        if len(self.message_log) > 100:
+            self.message_log.pop(0)
 
 
 if __name__ == "__main__":

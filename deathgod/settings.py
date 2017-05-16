@@ -10,10 +10,9 @@ in here should probably be in other "config" type files, so it's a WIP.
 """
 
 import os
-from . import cfg_parser
-from .ordered_pair import *
+from .ordered_pair import x, y
 
-debug = True;
+debug = True
 player_name = "William"
 
 # primary directories, relative to the modules directory

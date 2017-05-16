@@ -21,11 +21,11 @@ default_entity_fstr
 
 """
 
-from . import settings
+from pygame.sprite import Sprite
 from .directions import *
-from .ordered_pair import *
-from pygame.sprite import *
-from .ascii_gfx import *
+from .ordered_pair import x, y
+from . import fonts
+from .ascii_gfx import StyledString
 
 
 class Entity(Sprite):
@@ -223,7 +223,7 @@ class Entity(Sprite):
 
 
 # includes one default sprite
-default_entity_fstr = StyledString('e', fonts.normal, (255,0,0), True)
+default_entity_fstr = StyledString('e', fonts.normal, (255, 0, 0), True)
 
 _sprite_list = [default_entity_fstr.create_surface()]
 
@@ -351,7 +351,6 @@ class EntityList(list):
                 return e
             i = i - 1
         return None
-
 
 
 if __name__ == "__main__":
