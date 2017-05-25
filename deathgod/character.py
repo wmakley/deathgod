@@ -197,7 +197,7 @@ class StatStruct:
         self.reiatsu = self.intelligence
 
         # TODO: remove these or replace with functions derived from attributes
-        self.offense = 0
+        self.offense = 1
         self.defense = 0
 
 

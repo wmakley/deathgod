@@ -130,10 +130,10 @@ class Game:
         target = self.current_map.get_tile(destination)
         moved = True
         if target.passable is True:
-            for ent in target.entities:
-                if ent.passable is False:
+            for target_entity in target.entities:
+                if target_entity.passable is False:
                     if ent.type == "Player":
-                        ent.interact(ent)
+                        target_entity.interact(ent)
                     moved = False
                     break
             if moved is True:
@@ -190,8 +190,7 @@ class Game:
         It tries to move the player in a direction, if the tile is not passable for
         some reason nothing happens, and if there is an entity in the destination
         tile, it is assumed that the player wants to interact with it."""
-        if self.move_entity_in_direction(self.player, direction) is True:
-            pass
+        self.move_entity_in_direction(self.player, direction)
         self.end_turn()
 
 
