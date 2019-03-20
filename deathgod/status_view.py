@@ -25,7 +25,7 @@ class StatusView(View):
         #import colors
         #import fonts
         #self.add_view(text_views.StringView(self, (50, 50), "child of statusView",
-        #    fonts.normal, colors.black, colors.green))
+        #    fonts.regular, colors.black, colors.green))
 
     def add_status(self, text, color, position):
         status_img = self.font1.render(text, True, color)

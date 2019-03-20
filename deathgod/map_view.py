@@ -114,20 +114,5 @@ class MapView(View):
         self.hilight_on = True
         self.hilight_position = [10, 10]
 
-        #self.testTile = pygame.Surface((self.tileWidth, self.tile_height))
-        #self.testTile.fill(colors.blue)
-        #over = pygame.Surface((self.tileWidth-2, self.tile_height-2))
-        #over.fill(colors.black)
-        #self.testTile.blit(over, (1, 1))
-
-        #import text_views
-        #import fonts
-        #self.add_view( text_views.StringView(self, (100, 100),
-        #    "child of MapView", fonts.Monaco(10), colors.blue, colors.yellow) )
-        #
-        #self.add_view( text_views.StringView(self, (140, 140),
-        #    "child of MapView", fonts.CourierNewItalic(13), colors.black, colors.white) )
-
-
 if __name__ == "__main__":
     print(MapView.__doc__)

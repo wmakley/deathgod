@@ -9,7 +9,7 @@ from .entity import Entity
 from .event import Event
 
 random.seed()
-default_character_fstr = ascii_gfx.StyledString('C', fonts.normal, (180, 180, 0), True)
+default_character_fstr = ascii_gfx.StyledString('C', fonts.regular, (180, 180, 0), True)
 default_sprite_idx = entity.add_sprite(default_character_fstr.create_surface())
 
 class CharacterDeath(Event):

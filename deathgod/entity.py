@@ -223,7 +223,7 @@ class Entity(Sprite):
 
 
 # includes one default sprite
-default_entity_fstr = StyledString('e', fonts.normal, (255, 0, 0), True)
+default_entity_fstr = StyledString('e', fonts.regular, (255, 0, 0), True)
 
 _sprite_list = [default_entity_fstr.create_surface()]
 
@@ -355,4 +355,3 @@ class EntityList(list):
 
 if __name__ == "__main__":
     print(__doc__, Entity.__doc__)
-

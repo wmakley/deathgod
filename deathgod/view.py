@@ -154,14 +154,14 @@ class View(Sprite):
         """
         self.add_image(image, (position[x] + offset[x], position[y] + offset[y]))
 
-    def add_text(self, text, font=fonts.normal, color=(0, 0, 0), antialias=True,
+    def add_text(self, text, font=fonts.regular, color=(0, 0, 0), antialias=True,
                  position=(0, 0), offset=(0, 0)):
         """Takes a string with attributes, renders it, and blits it to the View.
 
         Arguments:
 
         text -- the string to use
-        font -- the pygame.font.Font object to use (default fonts.normal)
+        font -- the pygame.font.Font object to use (default fonts.regular)
         color -- the color to render the text in (default (0, 0, 0))
         antialias -- whether or not to antialias the text when rendering
         position -- where to add the text, relative to the upper-left
@@ -231,7 +231,7 @@ class ProgressBar(View):
         font = settings.font_normal
         rect = Rect(position, (font.get_height(), font.size("|" + ("*" * width) + "|")))
         View.__init__(self, parent, rect)
-        self.__font = fonts.normal
+        self.__font = fonts.regular
         self.__width = width
         self.__min = min_val
         self.__max = max_val

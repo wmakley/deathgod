@@ -33,16 +33,12 @@ user_config = os.path.join(cfg_dir, "autoexec.cfg")
 graphics_mode = 0 # ASCII graphics! don't change this - no other modes are implemented
 
 #fonts
-monaco = os.path.join(fonts_dir, "Monaco.ttf")
-courier_new = os.path.join(fonts_dir, "Courier_New.ttf")
-courier_new_bold = os.path.join(fonts_dir, "Courier_New_Bold.ttf")
-courier_new_italic = os.path.join(fonts_dir, "Courier_New_Italic.ttf")
-courier_new_bold_italic = os.path.join(fonts_dir, "Courier_New_Bold_Italic.ttf")
-
-font_normal = courier_new
-font_bold = courier_new_bold
-font_italic = courier_new_italic
-font_bolditalic = courier_new_bold_italic
+font_regular = os.path.join(fonts_dir, "Ubuntu_Mono", "UbuntuMono-Regular.ttf")
+font_bold = os.path.join(fonts_dir, "Ubuntu_Mono", "UbuntuMono-Bold.ttf")
+font_italic = os.path.join(fonts_dir, "Ubuntu_Mono", "UbuntuMono-Italic.ttf")
+font_bolditalic = os.path.join(
+    fonts_dir, "Ubuntu_Mono", "UbuntuMono-BoldItalic.ttf"
+)
 
 # player stuff
 player_symbol = '@'
@@ -57,8 +53,8 @@ window_caption = "Death God"
 # message view stuff
 message_text_size = 16
 message_max_chars = 55
-message_normalFont = os.path.join(fonts_dir, "Courier_New.ttf")
-message_hilightFont = os.path.join(fonts_dir, "Courier_New_Bold.ttf")
+message_normalFont = font_regular
+message_hilightFont = font_regular
 message_view_margin_bottom = 8
 message_view_size = (800, message_text_size + message_view_margin_bottom)
 message_view_position = (150, 0)

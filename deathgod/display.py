@@ -88,15 +88,15 @@ class Display(View):
             self,
             Rect(settings.message_view_position, settings.message_view_size),
             settings.message_view_bg_color,
-            fonts.CourierNew(settings.message_text_size)
+            fonts.Font(settings.font_regular, settings.message_text_size)
         )
 
         self.status_view = StatusView(
             self,
             Rect(settings.status_view_position, settings.status_view_size),
             settings.status_view_color,
-            pygame.font.Font(settings.font_normal, settings.status_view_font_size),
-            pygame.font.Font(settings.font_normal, settings.status_view_font_size),
+            pygame.font.Font(settings.font_regular, settings.status_view_font_size),
+            pygame.font.Font(settings.font_regular, settings.status_view_font_size),
             colors.green, colors.yellow
         )
 
@@ -105,7 +105,7 @@ class Display(View):
         #     parent = self,
         #     rect = Rect(100, 100, 200, 200),
         #     background = colors.black,
-        #     font = fonts.normal,
+        #     font = fonts.regular,
         #     padding = (10,10,10,10)
         # )
         # self.add_view(self.t_area)

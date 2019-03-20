@@ -6,7 +6,7 @@ from .ascii_gfx import StyledString
 from . import entity
 from . import message
 
-player_fstr = StyledString(settings.player_symbol, fonts.normal, settings.player_color)
+player_fstr = StyledString(settings.player_symbol, fonts.regular, settings.player_color)
 
 class PConfig:
     name = settings.player_name

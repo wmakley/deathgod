@@ -20,7 +20,7 @@ class StyledString:
     - a font, which is a reference to a pygame Font object
       (pygame.font.Font)
 
-    The default font is fonts.normal, and the default color is black.
+    The default font is fonts.regular, and the default color is black.
     The font parameter requires a pygame.font.Font object, and the
     color should be specified as an RGB tuple. By default, antialiasing
     is on, but another value may be specified.
@@ -49,7 +49,7 @@ class StyledString:
 
     """
 
-    def __init__(self, string="", font=fonts.normal, color=(0, 0, 0), antialias=True):
+    def __init__(self, string="", font=fonts.regular, color=(0, 0, 0), antialias=True):
         """Initialize the StyledString.
 
         Arguments:
@@ -57,7 +57,7 @@ class StyledString:
         string
             -- the string (default "")
         font
-            -- the pygame Font object to use (default fonts.normal)
+            -- the pygame Font object to use (default fonts.regular)
         color
             -- the color as an rgb tuple (default (0, 0, 0))
         antialias

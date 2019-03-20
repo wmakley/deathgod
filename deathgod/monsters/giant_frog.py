@@ -11,7 +11,7 @@ ai_module = ai.default
 from .. import entity
 from .. import ascii_gfx
 from .. import fonts
-fstr = ascii_gfx.StyledString(char, fonts.normal, color)
+fstr = ascii_gfx.StyledString(char, fonts.regular, color)
 sprite_idx = entity.add_sprite(fstr.create_sprite())
 
 import os

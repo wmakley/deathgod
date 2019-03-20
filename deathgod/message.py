@@ -72,7 +72,7 @@ class MessageView(View):
     enqueue_msg
     """
 
-    def __init__(self, parent, rect, bg_color=(0,0,0), font=fonts.normal):
+    def __init__(self, parent, rect, bg_color=(0,0,0), font=fonts.regular):
         View.__init__(self, parent, rect, bg_color)
 
         Message.add_handler(self.handle_message)

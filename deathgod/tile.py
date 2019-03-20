@@ -89,11 +89,11 @@ class CharDescription(Sprite):
     character.
     """
 
-    def __init__(self, font=fonts.normal, char=" ", color=(0, 0, 0)):
+    def __init__(self, font=fonts.regular, char=" ", color=(0, 0, 0)):
         """Arguments:
 
         font
-            -- the pygame Font object to use (default fonts.normal)
+            -- the pygame Font object to use (default fonts.regular)
         char
             -- the character (honestly there is nothing stopping you
                from putting a whole string in here) default: space
@@ -141,12 +141,12 @@ class TileDescription(CharDescription):
     create_sprites
     """
 
-    def __init__(self, font=fonts.normal, char='', color=(0, 0, 0),
+    def __init__(self, font=fonts.regular, char='', color=(0, 0, 0),
                  solid_bg=False, bg_color=settings.map_center_color):
         """Arguments:
 
         font
-            -- the font to use to render the tile (default fonts.normal)
+            -- the font to use to render the tile (default fonts.regular)
         char
             -- the ASCII character used to represent the tile (default '')
         solid_bg
@@ -233,7 +233,7 @@ class TileDescription(CharDescription):
         }
 
 
-map_font = fonts.CourierNew(16)
+map_font = fonts.regular
 
 # edit this list to add new types of terrain:
 _tile_attrs = {
@@ -267,4 +267,3 @@ def get_tile_sprites(size):
 def get_tile_desc(key):
     """An accessor for _tile_attrs"""
     return _tile_attrs[key]
-

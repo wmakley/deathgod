@@ -20,7 +20,7 @@ from .ordered_pair import *
 class StringView(View):
     """Encapsulates a StyledString in a View for automatic drawing."""
 
-    def __init__(self, parent, string, position=(0, 0), font=fonts.normal,
+    def __init__(self, parent, string, position=(0, 0), font=fonts.regular,
                  color=colors.white, background=colors.black, antialias=True):
         """Args:
 
@@ -31,7 +31,7 @@ class StringView(View):
         position
             -- the position of the view (defalt (0,0))
         font
-            -- the pygame Font to use (default fonts.normal)
+            -- the pygame Font to use (default fonts.regular)
         color
             -- the text color (default colors.white)
         background
@@ -62,7 +62,7 @@ class TextArea(View):
         View.__init__(self, parent, rect, background)
 
     def put_string(self, string, position=(0, 0),
-                   color=colors.white, background=None, fonts=fonts.normal):
+                   color=colors.white, background=None, fonts=fonts.regular):
         """Add a string with colors somewhere in the TextArea.
 
         Args:
@@ -77,7 +77,7 @@ class TextArea(View):
             -- the background color of the string, uses the parent's
                background color if None (default None)
         font
-            -- the pygame Font to use (default fonts.normal)
+            -- the pygame Font to use (default fonts.regular)
         """
         if background is None:
             background = self.background
@@ -101,7 +101,7 @@ class WrappedTextArea(View):
     max_lines
     """
 
-    def __init__(self, parent, rect, background=colors.black, font=fonts.normal, padding=[0,0,0,0]):
+    def __init__(self, parent, rect, background=colors.black, font=fonts.regular, padding=[0,0,0,0]):
         """Constructor.
 
         Args:
@@ -112,7 +112,7 @@ class WrappedTextArea(View):
             background
                 -- the background color (default colors.black)
             font
-                -- the font to use (default fonts.normal)
+                -- the font to use (default fonts.regular)
             padding
                 -- the view's padding, syntax is the same as
                    css: top,right,bottom,left (default [0,0,0,0])
