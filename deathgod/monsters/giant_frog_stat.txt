@@ -13,7 +13,7 @@ fire 0
 strength 4
 dexterity 1
 intelligence 1
-constitution 20
+constitution 5
 
 # skills
 plot_importance 0
