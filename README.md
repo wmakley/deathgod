@@ -25,15 +25,22 @@ three reasons:
 
 ## Dependencies
 
-* Python 3
+* Python 3 ([3.6 on Mac OS](https://stackoverflow.com/questions/52718921/problems-getting-pygame-to-show-anything-but-a-blank-screen-on-macos-mojave))
 * [Pygame 1.9.4](https://www.pygame.org/wiki/GettingStarted)
 
 ## Running it
 
-Option 1:
+Option 1, manual:
 
 `python3 main.py`
 
-Option 2:
+Option 2, Virtualenv:
 
-`./bin/deathgod`
+```sh
+./bin/create-virtualenv.sh
+./bin/deathgod
+```
+
+## Known Issues
+
+* Currently broken in Mac OS Mojave (shows a blank screen). [Python 3.6 downgrade may fix it](https://stackoverflow.com/questions/52718921/problems-getting-pygame-to-show-anything-but-a-blank-screen-on-macos-mojave), but having trouble getting Homebrew to install it.
