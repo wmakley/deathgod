@@ -16,7 +16,12 @@ goes on, however.)
 
 Because this was a college project I worked on over ten years ago, I
 have not made any changes to substandard style or engineering choices.
-I leave judgment in the hands of the reader. :)
+I leave judgment in the hands of the reader. :) I provide it here for
+three reasons:
+
+1. Fun.
+2. To demonstrate that I know Python.
+3. I enjoy hacking on it occasionally to keep it working on modern OSes.
 
 ## Dependencies
 
