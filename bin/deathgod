@@ -1,4 +1,10 @@
 #!/bin/bash
 set -eu
 cd "$(dirname "$0")"/..
-python3 main.py
+
+if [[ -d env ]]
+then
+    env/bin/python3 main.py
+else
+    python3 main.py
+fi
